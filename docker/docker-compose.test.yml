@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.test
+    image: ${IMAGE:-test}
+    links:
+      - data
+    environment:
+      - HTTP_SERVICE_HOST=data
+      - HTTP_SERVICE_PORT=8080
+      # - GRPC_SERVICE_HOST=data
+      # - GRPC_SERVICE_PORT=8090
+
+  data:
+    image: pipdevs/pip-service-data-dotnet:latest
+    container_name: data
+    environment:
+      HTTP_ENABLED: "true"
+      HTTP_PORT: 8080
+      GRPC_ENABLED: "true"
+      GRPC_PORT: 8090
+      MEMORY_ENABLED: "true"
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+
+
+  

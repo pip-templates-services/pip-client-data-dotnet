@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:3.1
+
+# set working directory
+WORKDIR /app
+
+# Restore
+COPY src/src.csproj ./src/
+RUN dotnet restore src/src.csproj
+
+
+# Copy src
+COPY . .
+
+
+# Publish
+RUN dotnet build src/src.csproj
+RUN dotnet publish src/src.csproj --force -o /obj
+
+# Pack Nuget
+RUN dotnet build src/src.csproj -c Release
+RUN dotnet pack src/src.csproj -c Release -o ../../../dist
