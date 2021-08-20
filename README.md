@@ -92,7 +92,7 @@ dotnet add package PipTemplatesClientData
 
 ## Use
 
-Install the client NPM package as
+Install the client NuGet package as
 ```bash
 dotnet add package PipTemplatesClientData
 ```
@@ -166,6 +166,7 @@ For development you shall install the following prerequisites:
 * Core .NET SDK 3.1+
 * Visual Studio Code or another IDE of your choice
 * Docker
+
 Restore dependencies:
 ```bash
 dotnet restore src/src.csproj
