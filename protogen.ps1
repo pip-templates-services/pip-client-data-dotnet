@@ -14,10 +14,6 @@ if (Test-Path "src/Protos") {
     Remove-Item -Path "src/Protos/*" -Force -Include *.cs
 }
 
-# if (Test-Path "example/Protos") {
-#     Remove-Item -Path "example/Protos/*" -Force -Include Dummies.cs
-# }
-
 # Build docker image
 docker build -f docker/Dockerfile.proto -t $docsImage .
 
