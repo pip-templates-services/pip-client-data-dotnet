@@ -64,10 +64,9 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.get_entities");
             try
             {
-                DataPage<EntityV1> result = new DataPage<EntityV1>(data: new List<EntityV1>());
                 DataPage<ServiceEntityV1> servicePageResult = await this._controller.GetEntitiesAsync(correlationId, filter, paging);
+				DataPage<EntityV1> result = new DataPage<EntityV1>(data: new List<EntityV1>(), total: servicePageResult.Total);
 
-                result.Total = servicePageResult.Total;
                 servicePageResult.Data.ForEach((item) => { 
                     result.Data.Add(FromServiceEntity(item)); 
                 });
