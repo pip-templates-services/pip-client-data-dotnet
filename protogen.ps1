@@ -3,22 +3,28 @@
 ##Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 
-# Get component data and set necessary variables
 $component = Get-Content -Path "component.json" | ConvertFrom-Json
 
-$docsImage="$($component.registry)/$($component.name):$($component.version)-$($component.build)-proto"
-$container=$component.name
+$buildImage = "$($component.registry)/$($component.name):$($component.version)-$($component.build)-protos"
+$container = $component.name
 
-# Remove old generate files
-if (Test-Path "src/Protos") {
-    Remove-Item -Path "src/Protos/*" -Force -Include *.cs
+# Remove build files
+if (Test-Path "./src/Protos") {
+    Remove-Item -Recurse -Force -Path "./src/Protos/*.cs"
+}
+else {
+    New-Item -ItemType Directory -Force -Path "./src/Protos"
 }
 
 # Build docker image
-docker build -f docker/Dockerfile.proto -t $docsImage .
+docker build -f docker/Dockerfile.proto -t $buildImage .
 
 # Create and copy compiled files, then destroy
-docker create --name $container $docsImage
-docker cp "$($container):/app/src/Protos" ./src/
-# docker cp "$($container):/app/example/Protos" ./example/
+docker create --name $container $buildImage
+docker cp "$($container):/app/src/Protos/" ./src/
 docker rm $container
+
+if (!(Test-Path "./src/Protos")) {
+    Write-Host "protos folder doesn't exist in root dir. Build failed. Watch logs above."
+    exit 1
+}

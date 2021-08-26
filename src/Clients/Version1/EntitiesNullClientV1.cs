@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 
 using PipServices3.Commons.Data;
-using PipTemplatesServiceData.Data.Version1;
-using PipTemplatesServiceData.Logic;
+using PipTemplatesClientData.Data.Version1;
 
 namespace PipTemplatesClientData.Clients.Version1
 {

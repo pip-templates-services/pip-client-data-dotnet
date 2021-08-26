@@ -3,7 +3,7 @@ using Xunit;
 
 using PipTemplatesClientData.Clients.Version1;
 using PipServices3.Commons.Data;
-using PipTemplatesServiceData.Data.Version1;
+using PipTemplatesClientData.Data.Version1;
 
 namespace PipTemplates.Client.Data.Test.Version1
 {

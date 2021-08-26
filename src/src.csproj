@@ -14,20 +14,16 @@
     <PackageReference Include="PipServices3.Commons" Version="3.2.0" />
     <PackageReference Include="PipServices3.Grpc" Version="3.0.2" />
     <PackageReference Include="PipServices3.Rpc" Version="3.4.4" />
-  </ItemGroup>
 
-  <!--<ItemGroup>
-    <ProjectReference Include="..\..\pip-service-data-dotnet\src\src.csproj" />
-  </ItemGroup>-->
+    <PackageReference Include="Grpc.Tools" Version="2.23.0" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="PipTemplatesServiceData">
       <HintPath>PipTemplatesServiceData.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
-  <!--<ItemGroup>
-    <Protobuf Include="Protos\entities_v1.proto" Link="entities_v1.proto" />
-  </ItemGroup>-->
+
+
 
 </Project>

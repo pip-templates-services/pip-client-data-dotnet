@@ -1,15 +1,17 @@
 ﻿
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using PipServices3.Commons.Convert;
 using PipServices3.Commons.Data;
 using PipServices3.Commons.Refer;
 using PipServices3.Rpc.Clients;
-using PipTemplatesServiceData.Data.Version1;
-using PipTemplatesServiceData.Logic;
+using PipTemplatesClientData.Data.Version1;
+using ServiceEntityV1 = PipTemplatesServiceData.Data.Version1.EntityV1;
+
 
 namespace PipTemplatesClientData.Clients.Version1
 {
-    public class EntitiesDirectClientV1 : DirectClient<IEntitiesController>, IEntitiesClientV1
+    public class EntitiesDirectClientV1 : DirectClient<dynamic>, IEntitiesClientV1
     {
 
         public EntitiesDirectClientV1() : base()
@@ -17,12 +19,25 @@ namespace PipTemplatesClientData.Clients.Version1
             this._dependencyResolver.Put("controller", new Descriptor("pip-service-data", "controller", "*", "*", "1.0"));
         }
 
+        private ServiceEntityV1 ToServiceEntity(EntityV1 entity)
+        {
+            // convert entity to service entity type
+            return JsonConverter.FromJson<ServiceEntityV1>(JsonConverter.ToJson(entity));
+        }
+
+        private EntityV1 FromServiceEntity(ServiceEntityV1 entity)
+        {
+            // convert service entity to entity type
+            return JsonConverter.FromJson<EntityV1>(JsonConverter.ToJson(entity));
+        }
+
         public async Task<EntityV1> CreateEntityAsync(string correlationId, EntityV1 entity)
         {
             var timing = this.Instrument(correlationId, "entities.create_entity");
             try
             {
-                return await this._controller.CreateEntityAsync(correlationId, entity);
+                entity = FromServiceEntity(await this._controller.CreateEntityAsync(correlationId, ToServiceEntity(entity)));
+                return entity;
             }
             finally
             {
@@ -35,7 +50,8 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.delete_entity_by_id");
             try
             {
-                return await this._controller.DeleteEntityByIdAsync(correlationId, entityId);
+                var entity = FromServiceEntity(await this._controller.DeleteEntityByIdAsync(correlationId, entityId));
+                return entity;
             }
             finally
             {
@@ -48,7 +64,15 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.get_entities");
             try
             {
-                return await this._controller.GetEntitiesAsync(correlationId, filter, paging);
+                DataPage<EntityV1> result = new DataPage<EntityV1>(data: new List<EntityV1>());
+                DataPage<ServiceEntityV1> servicePageResult = await this._controller.GetEntitiesAsync(correlationId, filter, paging);
+
+                result.Total = servicePageResult.Total;
+                servicePageResult.Data.ForEach((item) => { 
+                    result.Data.Add(FromServiceEntity(item)); 
+                });
+
+                return result;
             }
             finally
             {
@@ -62,7 +86,8 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.get_entity_by_id");
             try
             {
-                return await this._controller.GetEntityByIdAsync(correlationId, entityId);
+                var entity = FromServiceEntity(await this._controller.GetEntityByIdAsync(correlationId, entityId));
+                return entity;
             }
             finally
             {
@@ -75,7 +100,8 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.get_entity_by_name");
             try
             {
-                return await this._controller.GetEntityByNameAsync(correlationId, name);
+                var entity = FromServiceEntity(await this._controller.GetEntityByNameAsync(correlationId, name));
+                return entity;
             }
             finally
             {
@@ -88,7 +114,8 @@ namespace PipTemplatesClientData.Clients.Version1
             var timing = this.Instrument(correlationId, "entities.update_entity");
             try
             {
-                return await this._controller.UpdateEntityAsync(correlationId, entity);
+                entity = FromServiceEntity(await this._controller.UpdateEntityAsync(correlationId, ToServiceEntity(entity)));
+                return entity;
             }
             finally
             {

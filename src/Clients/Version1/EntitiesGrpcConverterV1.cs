@@ -6,7 +6,7 @@ using PipServices3.Commons.Errors;
 using PipServices3.Commons.Data;
 using ApplicationException = PipServices3.Commons.Errors.ApplicationException;
 using Newtonsoft.Json;
-using PipTemplatesServiceData.Data.Version1;
+using PipTemplatesClientData.Data.Version1;
 
 namespace PipTemplatesClientData.Clients.Version1
 {

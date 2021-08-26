@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\..\pip-service-data-dotnet\src\src.csproj" />-->
     <ProjectReference Include="..\src\src.csproj" />
   </ItemGroup>
 
@@ -28,7 +27,7 @@
       <HintPath>../src/PipTemplatesServiceData.dll</HintPath>
     </Reference>
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

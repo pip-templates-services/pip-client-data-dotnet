@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using PipServices3.Commons.Data;
-using PipTemplatesServiceData.Data.Version1;
+using PipTemplatesClientData.Data.Version1;
 
 namespace PipTemplatesClientData.Clients.Version1
 {

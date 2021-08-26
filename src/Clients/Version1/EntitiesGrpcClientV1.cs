@@ -1,11 +1,10 @@
 ﻿
 using System.Threading.Tasks;
 
-using EntitiesV1;
-
 using PipServices3.Commons.Data;
 using PipServices3.Grpc.Clients;
-using PipTemplatesServiceData.Data.Version1;
+using PipTemplatesClientData.Data.Version1;
+using PipTemplatesClientData.EntitiesV1;
 
 namespace PipTemplatesClientData.Clients.Version1
 {
