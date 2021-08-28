@@ -64,7 +64,7 @@ namespace PipTemplatesClientData.Clients.Version1
                 foreach (var entry in (IList)values)
                 {
                     if (entry is IList)
-                        (map as IList)[0] = (entry as IList)[0];
+                        (map as IList)[0] = (entry as IList)[1];
                 }
             }
             else
@@ -75,21 +75,11 @@ namespace PipTemplatesClientData.Clients.Version1
                     {
                         if ((values as IDictionary).Contains(propName))
                         {
-                            (values as IDictionary).Add(propName, (values as IDictionary)[propName]);
+                            (map as IDictionary).Add(propName, (values as IDictionary)[propName]);
                         }
                     }
                 }
-                else
-                {
-                    foreach (var propName in (values as IDictionary).Keys)
-                    {
-                        if (values.GetType().GetProperty((string)propName) != null)
-                            map.GetType().GetProperty((string)propName).SetValue(map, (values as IDictionary)[propName]);
-                    }
-                }
             }
-
-
         }
 
         public static object GetMap(object map)
